@@ -3,7 +3,6 @@ import 'package:creditcard/bloc/countries_bloc/countries_bloc.dart';
 import 'package:creditcard/bloc/creditcard_bloc/credit_cards_bloc.dart';
 import 'package:creditcard/repositories/countries_repository.dart';
 import 'package:creditcard/repositories/creditcard_repository.dart';
-import 'package:creditcard/service/app_service.dart';
 import 'package:creditcard/service/countries_service.dart';
 import 'package:creditcard/service/floor_db.dart';
 import 'package:creditcard/ui/cards.dart';
@@ -14,13 +13,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final database =
       await $FloorFloorDB.databaseBuilder('app_database.db').build();
-  final AppService appService = AppService();
   final CountryService countryService = CountryService();
   runApp(MultiRepositoryProvider(
     providers: [
       RepositoryProvider<CreditCardRepository>(
-        create: (context) =>
-            CreditCardRepository(appService, database.creditCardDao),
+        create: (context) => CreditCardRepository(database.creditCardDao),
       ),
       RepositoryProvider<CountryRepository>(
         create: (context) =>
